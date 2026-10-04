@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>B.Pharm Smart Calculator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+
+.app {
+    max-width: 760px;
+    margin: auto;
+    padding: 18px;
+}
+
+.hero {
+    background: #173f8a;
+    color: white;
+    padding: 22px;
+    border-radius: 18px;
+}
+
+.hero h1 {
+    margin: 0 0 7px;
+}
+
+.hero p {
+    margin: 0;
+}
+
+.tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.tab {
+    border: 0;
+    border-radius: 12px;
+    padding: 14px;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: #173f8a;
+    color: white;
+}
+
+.panel {
+    display: none;
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+.panel.active {
+    display: block;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin: 10px 0 6px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 13px;
+    border: 0;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 16px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+    line-height: 1.8;
+}
+
+.big {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.small {
+    color: #64748b;
+    font-size: 13px;
+}
+
+@media(max-width:520px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <div class="hero">
+        <h1>💊 B.Pharm Smart Calculator</h1>
+        <p>
+            Pharmaceutics • Chemistry • Analysis • Pharmacology • Biochemistry
+        </p>
+    </div>
+
+
+    <!-- MENU -->
+
+    <div class="tabs">
+
+        <button class="tab active" data-panel="flow">
+            Powder Flow
+        </button>
+
+        <button class="tab" data-panel="chem">
+            Chemistry
+        </button>
+
+        <button class="tab" data-panel="assay">
+            Assay
+        </button>
+
+        <button class="tab" data-panel="dose">
+            Dose
+        </button>
+
+        <button class="tab" data-panel="stats">
+            Statistics
+        </button>
+
+        <button class="tab" data-panel="drug">
+            Drug Database
+        </button>
+
+    </div>
+
+
+    <!-- ANGLE OF REPOSE -->
+
+    <div id="flow" class="panel active">
+
+        <h2>Angle of Repose + Powder Flow</h2>
+
+        <div class="grid">
+
+            <div>
+                <label>Height (h)</label>
+                <input
+                    id="h"
+                    type="number"
+                    step="any"
+                    placeholder="Enter height"
+                >
+            </div>
+
+            <div>
+                <label>Radius (r)</label>
+                <input
+                    id="r"
+                    type="number"
+                    step="any"
+                    placeholder="Enter radius"
+                >
+            </div>
+
+        </div>
+
+        <button class="btn" onclick="angle()">
+            Calculate
+        </button>
+
+        <div id="flowOut" class="result">
+            Enter height and radius.
+        </div>
+
+    </div>
+
+
+    <!-- CHEMISTRY -->
+
+    <div id="chem" class="panel">
+
+        <h2>Molarity & Normality Calculator</h2>
+
+        <div class="grid">
+
+            <div>
+                <label>Mass (g)</label>
+                <input id="mass" type="number" step="any">
+            </div>
+
+            <div>
+                <label>Molecular Weight</label>
+                <input id="mw" type="number" step="any">
+            </div>
+
+            <div>
+                <label>Volume (L)</label>
+                <input id="vol" type="number" step="any"
