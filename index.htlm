@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.Pharm Smart Calculator</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    background:#eef4f8;
+    color:#172033;
+}
+
+h1{
+    text-align:center;
+    color:#087f8c;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin:18px 0;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+h2{
+    color:#087f8c;
+    margin-top:0;
+}
+
+input,select,button{
+    width:100%;
+    padding:12px;
+    margin:7px 0;
+    border-radius:8px;
+    border:1px solid #ccd5df;
+    font-size:15px;
+}
+
+button{
+    background:#087f8c;
+    color:white;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#056b76;
+}
+
+.result{
+    background:#e8f7f8;
+    padding:12px;
+    margin-top:10px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:10px;
+    margin-top:15px;
+}
+
+.info div{
+    background:#f4f7fa;
+    padding:12px;
+    border-radius:8px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-top:8px;
+}
+
+.small{
+    color:#666;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>💊 B.Pharm Smart Calculator</h1>
+
+<!-- COMPOUND INFORMATION -->
+<div class="card">
+<h2>🔬 Compound Information</h2>
+
+<input
+type="text"
+id="compoundSearch"
+placeholder="Search compound..."
+oninput="searchCompound()">
+
+<select id="compoundSelect" onchange="showCompound()">
+<option value="">Select Compound</option>
+</select>
+
+<div id="compoundInfo"></div>
+</div>
+
+
+<!-- pH -->
+<div class="card">
+<h2>🧪 pH Calculator</h2>
+
+<label>Hydrogen ion concentration [H⁺] (mol/L)</label>
+<input type="number" id="hplus" step="any" placeholder="Example: 0.001">
+
+<button onclick="calculatePH()">Calculate pH</button>
+
+<div id="phResult" class="result"></div>
+</div>
+
+
+<!-- MOLARITY -->
+<div class="card">
+<h2>⚗️ Molarity Calculator</h2>
+
+<label>Mass of solute (g)</label>
+<input type="number" id="molMass" step="any">
+
+<label>Molecular Weight (g/mol)</label>
+<input type="number" id="molMW" step="any">
+
+<label>Volume of solution (mL)</label>
+<input type="number" id="molVolume" step="any">
+
+<button onclick="calculateMolarity()">Calculate Molarity</button>
+
+<div id="molarityResult" class="result"></div>
+</div>
+
+
+<!-- NORMALITY -->
+<div class="card">
+<h2>⚖️ Normality Calculator</h2>
+
+<label>Mass of solute (g)</label>
+<input type="number" id="normalMass" step="any">
+
+<label>Equivalent Weight (g/eq)</label>
+<input type="number" id="eqWeight" step="any">
+
+<label>Volume of solution (mL)</label>
+<input type="number" id="normalVolume" step="any">
+
+<button onclick="calculateNormality()">Calculate Normality</button>
+
+<div id="normalityResult" class="result"></div>
+</div>
+
+
+<!-- PPM -->
+<div class="card">
+<h2>💧 PPM Calculator</h2>
+
+<label>Mass of solute</label>
+<input type="number" id="ppmSolute" step="any">
+
+<label>Total solution mass</label>
+<input type="number" id="ppmSolution" step="any">
+
+<button onclick="calculatePPM()">Calculate PPM</button>
+
+<div id="ppmResult" class="result"></div>
+</div>
+
+
+<!-- ANGLE OF REPOSE -->
+<div class="card">
+<h2>📐 Angle of Repose</h2>
+
+<label>Height of powder cone</label>
+<input type="number" id="coneHeight" step="any">
+
+<label>Radius of powder cone</label>
+<input type="number" id="coneRadius" step="any">
+
+<button onclick="calculateAngle()">Calculate Angle</button>
+
+<div id="angleResult" class="result"></div>
+</div>
+
+
+<!-- DOSE -->
+<div class="card">
+<h2>💊 Dose Calculator</h2>
+
+<label>Dose per unit (mg)</label>
+<input type="number" id="doseUnit" step="any">
+
+<label>Number of units</label>
+<input type="number" id="doseUnits" step="any">
+
+<button onclick="calculateDose()">Calculate Total Dose</button>
+
+<div id="doseResult" class="result"></div>
+</div>
+
+
+<!-- STRENGTH -->
+<div class="card">
+<h2>🧴 Strength Calculator</h2>
+
+<label>Strength (% w/v)</label>
+<input type="number" id="strengthPercent" step="any">
+
+<label>Volume (mL)</label>
+<input type="number" id="strengthVolume" step="any">
+
+<button onclick="calculateStrength()">Calculate Drug Quantity</button>
+
+<div id="strengthResult" class="result"></div>
+</div>
+
+
+<!-- POWDER FLOW -->
+<div class="card">
+<h2>🧂 Powder Flow Properties</h2>
+
+<label>Powder Mass (g)</label>
+<input type="number" id="powderMass" step="any">
+
+<label>Bulk Volume (mL)</label>
+<input type="number" id="bulkVolume" step="any">
+
+<label>Tapped Volume (mL)</label>
+<input type="number" id="tappedVolume" step="any">
+
+<button onclick="calculatePowder()">Calculate Flow Properties</button>
+
+<div id="powderResult" class="result"></div>
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   COMPOUND DATABASE
+========================= */
+
+const compounds = [
+
+["Alanine",89.1],
+["Arginine",174.2],
+["Asparagine",132.1],
+["Aspartate",133.1],
+["Cysteine",121.2],
+["Glutamate",147.1],
+["Glutamine",146.1],
+["Glycine",75.1],
+["Histidine",155.2],
+["Isoleucine",131.2],
+["Leucine",131.2],
+["Lysine",146.2],
+["Methionine",149.2],
+["Phenylalanine",165.2],
+["Proline",115.1],
+["Serine",105.1],
+["Threonine",119.1],
+["Tryptophan",204.2],
+["Tyrosine",181.2],
+["Valine",117.1],
+
+["GABA",103.1],
+["Ornithine",132.2],
+["Citrulline",175.2],
+["Selenocysteine",168.1],
+["Pyrrolysine",255.3],
+
+["D-Glucose",180.2],
+["D-Fructose",180.2],
+["D-Galactose",180
